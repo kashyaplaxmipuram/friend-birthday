@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Birthday Surprise ✨</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Arial;background:linear-gradient(135deg,#ff8ab5,#ffd6e8);color:#fff;overflow-x:hidden}
+.page{display:none;min-height:100vh;padding:40px;justify-content:center;align-items:center;flex-direction:column;text-align:center}
+.page.active{display:flex;animation:fade .8s}
+.glass{background:rgba(255,255,255,.15);backdrop-filter:blur(12px);padding:28px;border-radius:20px;max-width:900px}
+h1{margin:0 0 15px;font-size:3rem}button{padding:12px 24px;border:none;border-radius:30px;background:#fff;color:#e91e63;font-weight:700;cursor:pointer;margin:8px}
+button:hover{transform:scale(1.05)}
+.grid{display:flex;flex-wrap:wrap;justify-content:center;gap:15px}
+.card{background:rgba(255,255,255,.15);padding:18px;border-radius:16px;min-width:180px}
+#gift{font-size:110px;cursor:pointer}
+#game{width:min(700px,95vw);height:300px;border:2px dashed rgba(255,255,255,.6);border-radius:16px;position:relative;overflow:hidden}
+.heart{position:absolute;font-size:28px;cursor:pointer}
+.float{position:fixed;bottom:-30px;animation:rise linear forwards}
+@keyframes rise{to{transform:translateY(-120vh);opacity:0}}
+@keyframes fade{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:none}}
+#typed{min-height:90px;white-space:pre-wrap}
+</style>
+</head>
+<body>
+
+<section class="page active">
+<div class="glass">
+<h1>🎂 Happy Birthday!</h1>
+<p>Every click unlocks another surprise made especially for you. 💖</p>
+<button onclick="next()">Begin</button>
+</div>
+</section>
+
+<section class="page"><div class="glass">
+<h1>🎁 Mystery Gift</h1>
+<div id="gift" onclick="openGift()">🎁</div>
+<p id="giftMsg" style="display:none">You deserve joy, success, laughter, and beautiful memories every single day. 🌸</p>
+</div></section>
+
+<section class="page"><div class="glass">
+<h1>🌹 Pick a Flower</h1>
+<div class="grid">
+<button onclick="flower('🌹 A rose for someone wonderful.')">Rose</button>
+<button onclick="flower('🌷 May your dreams bloom beautifully.')">Tulip</button>
+<button onclick="flower('🌻 Keep shining brighter every year.')">Sunflower</button>
+<button onclick="flower('🌸 Wishing you endless happiness.')">Cherry Blossom</button>
+</div>
+<h3 id="flowerMsg"></h3>
+<button onclick="next()">Next</button>
+</div></section>
+
+<section class="page"><div class="glass">
+<h1>🕯️ Blow Out the Candles</h1>
+<div style="font-size:100px">🎂</div>
+<div id="flames">🕯️🕯️🕯️🕯️🕯️</div>
+<button onclick="blow()">Blow Candles</button>
+<p id="wish"></p>
+<button onclick="next()">Next</button>
+</div></section>
+
+<section class="page"><div class="glass">
+<h1>💌 Wishes Generator</h1>
+<div id="typed"></div>
+<button onclick="typeWish()">Another Wish</button>
+<button onclick="next()">Next</button>
+</div></section>
+
+<section class="page"><div class="glass">
+<h1>🎯 Catch 12 Hearts</h1>
+<div id="game"></div>
+<p>Score: <span id="score">0</span>/12</p>
+<button onclick="startGame()">Start</button>
+</div></section>
+
+<section class="page"><div class="glass">
+<h1>🎡 Lucky Wheel</h1>
+<p id="wheel">Click Spin!</p>
+<button onclick="spin()">Spin</button>
+<button onclick="next()">Next</button>
+</div></section>
+
+<section class="page"><div class="glass">
+<h1>💖 Reasons You're Amazing</h1>
+<div class="grid" id="reasons"></div>
+<button onclick="loadReasons()">Reveal</button>
+<button onclick="next()">Next</button>
+</div></section>
+
+<section class="page"><div class="glass">
+<h1>🎉 Happy Birthday! 🎉</h1>
+<p>May this year bring you countless smiles, unforgettable adventures, good health, and every success you dream of. Keep being the amazing person you are. ✨</p>
+<h2>💖 Have the Best Birthday Ever! 💖</h2>
+<button onclick="celebrate()">Celebrate</button>
+</div></section>
+
+<script>
+const pages=[...document.querySelectorAll('.page')];let p=0;
+function next(){if(p<pages.length-1){pages[p].classList.remove('active');pages[++p].classList.add('active');}}
+function celebrate(){for(let i=0;i<120;i++){let e=document.createElement('div');e.className='float';e.textContent=Math.random()>.5?'💖':'✨';e.style.left=Math.random()*100+'vw';e.style.fontSize=(16+Math.random()*22)+'px';e.style.animationDuration=(3+Math.random()*3)+'s';document.body.appendChild(e);setTimeout(()=>e.remove(),6000);}}
+function openGift(){giftMsg.style.display='block';celebrate();setTimeout(next,1800);}
+function flower(t){flowerMsg.textContent=t;}
+function blow(){flames.textContent='';wish.textContent='✨ Make a wish!';celebrate();}
+const wishes=["May your smile always light up every room. 💖","May every dream find its way to you. 🌸","Wishing you happiness, peace, and success. ✨","Keep smiling—you make the world brighter. 🌟","Hope this birthday becomes your favorite memory. 🎂"];
+function typeWish(){let msg=wishes[Math.floor(Math.random()*wishes.length)],i=0;typed.textContent='';let id=setInterval(()=>{typed.textContent+=msg[i++]||'';if(i>msg.length)clearInterval(id);},25)};typeWish();
+function startGame(){game.innerHTML='';let s=0;score.textContent=0;for(let i=0;i<12;i++){let h=document.createElement('div');h.className='heart';h.textContent='💖';h.style.left=Math.random()*92+'%';h.style.top=Math.random()*85+'%';h.onclick=()=>{h.remove();score.textContent=++s;if(s===12){celebrate();alert('You completed the challenge!');next();}};game.appendChild(h);}}
+const prizes=["🌹 Virtual Rose","🍫 Chocolate","💌 Secret Wish","🧸 Teddy Bear","✨ Lucky Star","🎁 Bonus Surprise"];
+function spin(){wheel.textContent=prizes[Math.floor(Math.random()*prizes.length)];celebrate();}
+const arr=["😊 Your smile is beautiful","🌸 Your kindness inspires","✨ You brighten every room","💖 You're one of a kind","🌈 Stay exactly as you are","🌟 Keep chasing your dreams"];
+function loadReasons(){reasons.innerHTML='';arr.forEach(x=>{let c=document.createElement('div');c.className='card';c.textContent=x;reasons.appendChild(c);});}
+</script>
+</body>
+</html>
